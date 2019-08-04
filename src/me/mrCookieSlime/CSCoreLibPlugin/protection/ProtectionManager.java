@@ -8,15 +8,21 @@ import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.protection.modules.*;
 
+import net.coreprotect.CoreProtect;
+import net.coreprotect.CoreProtectAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
 public class ProtectionManager {
 
 	private Config local = new Config("plugins/CS-CoreLib/protection.yml");
 	private Set<ProtectionModule> modules = new HashSet<ProtectionModule>();
+	private CoreProtectAPI coreProtectAPI;
 
 	public void registerNewModule(String name, ProtectionModule module) {
 		this.modules.add(module);
@@ -75,6 +81,9 @@ public class ProtectionManager {
 		if (cscorelib.getServer().getPluginManager().isPluginEnabled("BentoBox")) {
 			registerNewModule("BentoBox", new BentoBoxProtectionModule());
 		}
+		if (cscorelib.getServer().getPluginManager().isPluginEnabled("CoreProtect")) {
+			coreProtectAPI = ((CoreProtect)cscorelib.getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
+		}
 	}
 
 	public boolean canBuild(UUID uuid, Block b) {
@@ -113,8 +122,28 @@ public class ProtectionManager {
 				return false;
 			}
 		}
-
+		logInteraction(player.getName(), b.getLocation());
+		logContainerTransaction(player.getName(),b.getLocation());
 		return true;
 	}
-
+	public boolean logRemoveal(String user, Location location, Material type, BlockData blockData){
+		if(coreProtectAPI == null)
+			return false;
+		return coreProtectAPI.logRemoval(user,location,type,blockData);
+	}
+	public boolean logPlacement(String user, Location location, Material type, BlockData blockData){
+		if(coreProtectAPI == null)
+			return false;
+		return coreProtectAPI.logPlacement(user,location,type,blockData);
+	}
+	public boolean logInteraction(String user, Location location){
+		if(coreProtectAPI == null)
+			return false;
+		return coreProtectAPI.logInteraction(user,location);
+	}
+	public boolean logContainerTransaction(String user, Location location){
+		if(coreProtectAPI == null)
+			return false;
+		return coreProtectAPI.logContainerTransaction(user,location);
+	}
 }
