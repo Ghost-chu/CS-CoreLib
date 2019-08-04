@@ -4,6 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import com.earth2me.essentials.antibuild.EssentialsAntiBuild;
+import com.earth2me.essentials.antibuild.EssentialsAntiBuildListener;
+import me.crafter.mc.lockettepro.LockettePro;
+import me.crafter.mc.lockettepro.LocketteProAPI;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.protection.modules.*;
@@ -17,6 +21,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
+import org.yi.acru.bukkit.Lockette.Lockette;
 
 public class ProtectionManager {
 
@@ -30,6 +35,7 @@ public class ProtectionManager {
 		local.setDefaultValue("plugins." + name + ".no-block-access", "&4&l! &cSorry, but the Plugin &4" + name + " &cdoes not allow you to access this Block");
 		local.setDefaultValue("plugins." + name + ".no-block-breaking", "&4&l! &cSorry, but the Plugin &4" + name + " &cdoes not allow you to break this Block");
 		local.save();
+
 	}
 
 	private void loadModuleMSG(String module) {
@@ -80,6 +86,9 @@ public class ProtectionManager {
 		}
 		if (cscorelib.getServer().getPluginManager().isPluginEnabled("BentoBox")) {
 			registerNewModule("BentoBox", new BentoBoxProtectionModule());
+		}
+		if (cscorelib.getServer().getPluginManager().isPluginEnabled("HamsterEcoHelper")) {
+			registerNewModule("HamsterEcoHelper", new HamsterEcoHelperProtectionModule());
 		}
 		if (cscorelib.getServer().getPluginManager().isPluginEnabled("CoreProtect")) {
 			coreProtectAPI = ((CoreProtect)cscorelib.getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
