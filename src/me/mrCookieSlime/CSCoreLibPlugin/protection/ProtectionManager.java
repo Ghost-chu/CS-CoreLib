@@ -4,10 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import com.earth2me.essentials.antibuild.EssentialsAntiBuild;
-import com.earth2me.essentials.antibuild.EssentialsAntiBuildListener;
-import me.crafter.mc.lockettepro.LockettePro;
-import me.crafter.mc.lockettepro.LocketteProAPI;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.protection.modules.*;
@@ -71,6 +67,9 @@ public class ProtectionManager {
 		}
 		if (cscorelib.getServer().getPluginManager().isPluginEnabled("Lockette")) {
 			registerNewModule("Lockette", new LocketteProtectionModule());
+		}
+		if (cscorelib.getServer().getPluginManager().isPluginEnabled("LockettePro")) {
+			registerNewModule("LockettePro", new LocketteProProtectionModule());
 		}
 		if(cscorelib.getServer().getPluginManager().isPluginEnabled("ProtectionStones")) {
             this.loadModuleMSG("ProtectionStones");
